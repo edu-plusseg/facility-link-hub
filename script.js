@@ -32,13 +32,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadData() {
     try {
-        // Tenta carregar localmente primeiro, depois do GitHub se configurado
-        let response;
-        if (REPO_OWNER && REPO_NAME) {
-            const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}?t=${Date.now()}`;
-            response = await fetch(url);
-        } else {
-            response = await fetch(FILE_PATH);
+        // Tenta carregar do arquivo local (que no GitHub Pages será o mesmo do repo)
+        // Isso é mais rápido e confiável para leitura inicial
+        let response = await fetch(`${FILE_PATH}?t=${Date.now()}`);
+        
+        if (!response.ok) {
+            // Fallback para raw GitHub URL se falhar localmente
+            if (REPO_OWNER && REPO_NAME) {
+                const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}?t=${Date.now()}`;
+                response = await fetch(url);
+            }
         }
         
         if (!response.ok) throw new Error('Falha ao carregar dados');
