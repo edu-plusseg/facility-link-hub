@@ -8,52 +8,52 @@
   ],
   "links": [
     {
-      "name": "CRM",
-      "category": "Comercial",
-      "url": "https://crm.example.com",
-      "description": "Sistema de gestão de clientes"
+      "name": "CRM - Gestão de Relacionamento com Cliente - Pipefy",
+      "url": "https://app.pipefy.com/organizations/301738057",
+      "description": "Sistema de Gestão das Cotações dos Clientes",
+      "category": "Comercial"
     },
     {
-      "name": "ERP",
-      "category": "Operações",
-      "url": "https://erp.example.com",
-      "description": "Sistema de gestão empresarial"
+      "name": "ERP - Teleport",
+      "url": "https://teleport.com.br/",
+      "description": "Sistema de gestão empresarial",
+      "category": "Operações"
     },
     {
       "name": "Hub SDR (Nexus + Radar)",
-      "category": "Comercial",
       "url": "https://hubsdr.example.com",
-      "description": "Ferramentas de vendas"
+      "description": "QG do SDR",
+      "category": "Comercial"
     },
     {
-      "name": "Google (emails internos)",
-      "category": "Institucional",
-      "url": "https://mail.google.com",
-      "description": "Acesso ao e-mail corporativo"
+      "name": "Google dos Emails Internos",
+      "url": "https://a84d8075-9159-4fdc-b30b-ed1996b1b42e-00-1iha4r6pz9fqi.kirk.replit.dev/login",
+      "description": "Pesquisa nos emails corporativos antigos - criado no replit por eduardo.roquette@facilitybondcorretora.com.br - publish pendente",
+      "category": "Institucional"
     },
     {
-      "name": "App de reuniões",
-      "category": "Operações",
-      "url": "https://meet.google.com",
-      "description": "Plataforma de videoconferência"
+      "name": "App de reserva das Salas de Reunião",
+      "url": "https://app-marcar-sala-de-reuniao--edufacility.replit.app",
+      "description": "",
+      "category": "Operações"
     },
     {
-      "name": "Pomenelli (marketing Instagram/LinkedIn)",
-      "category": "Marketing",
-      "url": "https://pomenelli.example.com",
-      "description": "Gestão de redes sociais"
+      "name": "Pomenelli - Marketing Digital",
+      "url": "https://labs.google.com/u/0/pomelli/campaigns",
+      "description": "Criação de imagens para Linkedin e Instagram",
+      "category": "Marketing"
     },
     {
       "name": "Site da Facility",
-      "category": "Institucional",
-      "url": "https://facilitybond.com.br",
-      "description": "Site institucional"
+      "url": "https://www.facilitybond.com.br",
+      "description": "Site institucional",
+      "category": "Institucional"
     },
     {
-      "name": "Metabase (dashboards financeiros)",
-      "category": "Financeiro",
-      "url": "https://metabase.example.com",
-      "description": "Visualização de dados financeiros"
+      "name": "Dashboards Financeiros - Metabase",
+      "url": "https://delitescent-melic-kaidence.ngrok-free.dev/dashboard/8-1-f-b-dashboard-financeiro-2026",
+      "description": "Visualização de dados financeiros",
+      "category": "Financeiro"
     }
   ],
   "authorizedEmails": [
