@@ -1,0 +1,64 @@
+{
+  "categories": [
+    "Comercial",
+    "Operações",
+    "Marketing",
+    "Institucional",
+    "Financeiro"
+  ],
+  "links": [
+    {
+      "name": "CRM",
+      "category": "Comercial",
+      "url": "https://crm.example.com",
+      "description": "Sistema de gestão de clientes"
+    },
+    {
+      "name": "ERP",
+      "category": "Operações",
+      "url": "https://erp.example.com",
+      "description": "Sistema de gestão empresarial"
+    },
+    {
+      "name": "Hub SDR (Nexus + Radar)",
+      "category": "Comercial",
+      "url": "https://hubsdr.example.com",
+      "description": "Ferramentas de vendas"
+    },
+    {
+      "name": "Google (emails internos)",
+      "category": "Institucional",
+      "url": "https://mail.google.com",
+      "description": "Acesso ao e-mail corporativo"
+    },
+    {
+      "name": "App de reuniões",
+      "category": "Operações",
+      "url": "https://meet.google.com",
+      "description": "Plataforma de videoconferência"
+    },
+    {
+      "name": "Pomenelli (marketing Instagram/LinkedIn)",
+      "category": "Marketing",
+      "url": "https://pomenelli.example.com",
+      "description": "Gestão de redes sociais"
+    },
+    {
+      "name": "Site da Facility",
+      "category": "Institucional",
+      "url": "https://facilitybond.com.br",
+      "description": "Site institucional"
+    },
+    {
+      "name": "Metabase (dashboards financeiros)",
+      "category": "Financeiro",
+      "url": "https://metabase.example.com",
+      "description": "Visualização de dados financeiros"
+    }
+  ],
+  "authorizedEmails": [
+    "eduardo.roquette@plusseg.com",
+    "eduardo.roquette@facilitybond.com.br",
+    "eduardo.roquette@facilitybondcorretora.com.br"
+  ]
+}

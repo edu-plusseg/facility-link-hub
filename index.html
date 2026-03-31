@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub de Links Internos - Facility</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Facility <span>Link Hub</span></h1>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Buscar links...">
+                </div>
+                <div class="header-actions">
+                    <button id="editBtn" class="btn btn-secondary">Editar Hub</button>
+                    <button id="saveBtn" class="btn btn-primary hidden">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="linksContainer" class="links-grid">
+            <!-- Categorias e links serão carregados aqui -->
+            <div class="loading">Carregando links...</div>
+        </div>
+    </main>
+
+    <!-- Modal de Autenticação -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <h2>Acesso Restrito</h2>
+            <p>Insira seu e-mail para habilitar o modo de edição.</p>
+            <div class="form-group">
+                <input type="email" id="authEmail" placeholder="seu-email@facilitybond.com.br">
+            </div>
+            <div class="modal-actions">
+                <button id="cancelAuth" class="btn btn-text">Cancelar</button>
+                <button id="confirmAuth" class="btn btn-primary">Validar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Configuração do GitHub -->
+    <div id="configModal" class="modal">
+        <div class="modal-content">
+            <h2>Configuração de Sincronização</h2>
+            <p>Para salvar alterações, é necessário um <strong>GitHub Personal Access Token (PAT)</strong>.</p>
+            <div class="form-group">
+                <label for="githubPat">Token de Acesso:</label>
+                <input type="password" id="githubPat" placeholder="ghp_xxxxxxxxxxxx">
+                <small>Este token fica armazenado apenas no seu navegador.</small>
+            </div>
+            <div class="modal-actions">
+                <button id="cancelConfig" class="btn btn-text">Cancelar</button>
+                <button id="saveConfig" class="btn btn-primary">Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar/Editar Link -->
+    <div id="linkModal" class="modal">
+        <div class="modal-content">
+            <h2 id="linkModalTitle">Adicionar Link</h2>
+            <form id="linkForm">
+                <input type="hidden" id="linkId">
+                <div class="form-group">
+                    <label>Nome do Sistema:</label>
+                    <input type="text" id="linkName" required>
+                </div>
+                <div class="form-group">
+                    <label>URL:</label>
+                    <input type="url" id="linkUrl" required>
+                </div>
+                <div class="form-group">
+                    <label>Descrição (opcional):</label>
+                    <input type="text" id="linkDesc">
+                </div>
+                <div class="form-group">
+                    <label>Categoria:</label>
+                    <select id="linkCategory" required>
+                        <!-- Categorias dinâmicas -->
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelLink" class="btn btn-text">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="container">
+        <p>&copy; 2026 Facility - Hub Interno</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
