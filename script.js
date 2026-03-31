@@ -1,4 +1,4 @@
-// Configurações do Repositório (Preencher após criar o repo)
+// Configurações do Repositório
 const REPO_OWNER = 'edu-plusseg';
 const REPO_NAME = 'facility-link-hub';
 const FILE_PATH = 'data.json';
@@ -32,32 +32,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadData() {
     try {
-        // Tenta carregar do arquivo local (que no GitHub Pages será o mesmo do repo)
-        // Isso é mais rápido e confiável para leitura inicial
-        let response = await fetch(`${FILE_PATH}?t=${Date.now()}`);
+        // Para garantir que os dados estejam SEMPRE atualizados em tempo real para todos:
+        // Buscamos diretamente da branch 'main' usando o URL Raw do GitHub com um timestamp único
+        const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}?t=${Date.now()}`;
         
-        if (!response.ok) {
-            // Fallback para raw GitHub URL se falhar localmente
-            if (REPO_OWNER && REPO_NAME) {
-                const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}?t=${Date.now()}`;
-                response = await fetch(url);
-            }
-        }
+        const response = await fetch(url, {
+            cache: 'no-store' // Instrução adicional para não usar cache do navegador
+        });
         
-        if (!response.ok) throw new Error('Falha ao carregar dados');
+        if (!response.ok) throw new Error('Falha ao carregar dados do GitHub');
         
         appData = await response.json();
         renderLinks();
     } catch (error) {
         console.error('Erro ao carregar dados:', error);
-        linksContainer.innerHTML = '<div class="loading">Erro ao carregar os links. Verifique a configuração do repositório.</div>';
+        // Fallback para arquivo local se o GitHub falhar (pode estar desatualizado)
+        try {
+            const localRes = await fetch(`${FILE_PATH}?t=${Date.now()}`);
+            if (localRes.ok) {
+                appData = await localRes.json();
+                renderLinks();
+            } else {
+                throw new Error();
+            }
+        } catch (e) {
+            linksContainer.innerHTML = '<div class="loading">Erro ao carregar os links. Verifique sua conexão.</div>';
+        }
     }
 }
 
 function renderLinks(filter = '') {
     linksContainer.innerHTML = '';
     
-    if (appData.categories.length === 0) {
+    if (!appData.categories || appData.categories.length === 0) {
         linksContainer.innerHTML = '<div class="loading">Nenhum link encontrado.</div>';
         return;
     }
@@ -66,6 +73,7 @@ function renderLinks(filter = '') {
     if (isEditMode) {
         const addSection = document.createElement('div');
         addSection.className = 'category-section';
+        addSection.style.width = '100%';
         addSection.innerHTML = `<button class="btn btn-primary" onclick="openLinkModal()">+ Adicionar Novo Link</button>`;
         linksContainer.appendChild(addSection);
     }
@@ -74,7 +82,7 @@ function renderLinks(filter = '') {
         const categoryLinks = appData.links.filter(link => 
             link.category === category && 
             (link.name.toLowerCase().includes(filter.toLowerCase()) || 
-             link.description.toLowerCase().includes(filter.toLowerCase()))
+             (link.description && link.description.toLowerCase().includes(filter.toLowerCase())))
         );
 
         if (categoryLinks.length > 0 || isEditMode) {
@@ -184,7 +192,11 @@ function setupEventListeners() {
 
         if (id) {
             const index = appData.links.findIndex(l => l.name === id);
-            appData.links[index] = newLink;
+            if (index !== -1) {
+                appData.links[index] = newLink;
+            } else {
+                appData.links.push(newLink);
+            }
         } else {
             appData.links.push(newLink);
         }
@@ -219,7 +231,7 @@ function openLinkModal(link = null) {
         document.getElementById('linkId').value = link.name;
         document.getElementById('linkName').value = link.name;
         document.getElementById('linkUrl').value = link.url;
-        document.getElementById('linkDesc').value = link.description;
+        document.getElementById('linkDesc').value = link.description || '';
         document.getElementById('linkCategory').value = link.category;
     } else {
         title.textContent = 'Adicionar Link';
@@ -244,7 +256,7 @@ function deleteLink(name) {
 
 async function saveToGitHub() {
     if (!REPO_OWNER || !REPO_NAME) {
-        alert('Configuração do repositório ausente no script.js. Por favor, configure REPO_OWNER e REPO_NAME.');
+        alert('Configuração do repositório ausente.');
         return;
     }
 
@@ -254,8 +266,8 @@ async function saveToGitHub() {
     try {
         const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
         
-        // 1. Obter o SHA do arquivo atual
-        const getRes = await fetch(apiUrl, {
+        // 1. Obter o SHA do arquivo atual na branch main
+        const getRes = await fetch(apiUrl + '?ref=main', {
             headers: { 'Authorization': `token ${githubToken}` }
         });
         
@@ -265,7 +277,7 @@ async function saveToGitHub() {
             sha = fileData.sha;
         }
 
-        // 2. Atualizar o arquivo
+        // 2. Atualizar o arquivo na branch main
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(appData, null, 2))));
         const putRes = await fetch(apiUrl, {
             method: 'PUT',
@@ -276,13 +288,16 @@ async function saveToGitHub() {
             body: JSON.stringify({
                 message: `Update links by ${currentUserEmail}`,
                 content: content,
-                sha: sha
+                sha: sha,
+                branch: 'main'
             })
         });
 
         if (putRes.ok) {
-            alert('Alterações salvas com sucesso no GitHub!');
+            alert('Alterações salvas com sucesso! Os dados agora serão sincronizados instantaneamente para todos.');
             toggleEditMode(false);
+            // Recarrega os dados para garantir sincronia
+            loadData();
         } else {
             const err = await putRes.json();
             throw new Error(err.message || 'Erro ao salvar');
